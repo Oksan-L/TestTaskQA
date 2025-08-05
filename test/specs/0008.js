@@ -1,5 +1,7 @@
 //Precondition: User is on the logined into account. User is on the inventory page
 
+import { faker } from '@faker-js/faker';
+
 import loginPage from "../pages/login.page"
 import inventoryPage from "../pages/inventory.page"
 import cartPage from "../pages/cart.page"
@@ -9,6 +11,10 @@ import completePage from "../pages/complete.page"
 let addedItemNumber = 0
 let addedItemName
 let addedItemPrice
+
+const firstName = faker.person.firstName();
+const lastName = faker.person.lastName();
+const postalCode = faker.location.zipCode();
 
 describe("Valid Checkout", () => {
 
@@ -74,27 +80,29 @@ describe("Valid Checkout", () => {
     //Fill the "First Name" field with valid data
     it("Data is entered to the field (First Name)", async () => {
 
-        await cartPage.firstNameInput.setValue('John')
+        const firstName = faker.person.firstName()
+        await cartPage.firstNameInput.setValue(firstName)
         const firstNameValue = await cartPage.firstNameInput.getValue()
-        expect(firstNameValue).toBe('John')
+        expect(firstNameValue).toBe(firstName)
 
     })
 
     //Fill the "Second Name" field with valid data
     it("Data is entered to the field (Second Name)", async () => {
 
-        await cartPage.lastNameInput.setValue('Doe')
+        const lastName = faker.person.lastName()
+        await cartPage.lastNameInput.setValue(lastName)
         const lastNameValue = await cartPage.lastNameInput.getValue()
-        expect(lastNameValue).toBe('Doe')
-
+        expect(lastNameValue).toBe(lastName)
     })
 
     //Fill the "Postal Code" field with valid data
     it("Data is entered to the field (Postal Code)", async () => {
 
-        await cartPage.postalCodeInput.setValue('12345')
+        const postalCode = faker.location.zipCode()
+        await cartPage.postalCodeInput.setValue(postalCode)
         const postalCodeValue = await cartPage.postalCodeInput.getValue()
-        expect(postalCodeValue).toBe('12345')
+        expect(postalCodeValue).toBe(postalCode)
         await browser.pause(2000)
 
     })
