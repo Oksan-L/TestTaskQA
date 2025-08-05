@@ -37,7 +37,7 @@ export const config = {
         './test/specs/0005.js',
         './test/specs/0006.js',
         './test/specs/0007.js',
-        //'./test/specs/0008.js',
+        './test/specs/0008.js',
         './test/specs/0009.js'
     ],
     //
