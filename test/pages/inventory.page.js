@@ -78,17 +78,6 @@ class inventoryPage {
         return parseFloat(priceText.replace('$', ''));
     }
 
-    // isn't working part
-    // async getProductPrices() {
-    //     const prices = []
-    //     for (const el of this.priceElements) {
-    //         const text = await el.getText() // example: "$9.99"
-    //         const num = parseFloat(text.replace('$', ''))
-    //         prices.push(num)
-    //     }
-    //     return prices;
-    // }
-
     // Retrieves the prices of all products in the inventory
     async getProductPrices() {
         const priceElements1 = await $$('.inventory_item_price');

@@ -1,5 +1,5 @@
 {
-  "name": "TestTaskQA",
+  "name": "testTaskQA",
   "type": "module",
   "devDependencies": {
     "@wdio/cli": "^9.18.4",

@@ -1,0 +1,30 @@
+# Node modules
+node_modules/
+
+# Screenshots
+screenshots/
+*.png
+*.jpg
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Videos
+*.mp4
+
+# Environment files
+.env
+*.env
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode/
+.idea/
+
+# Cache
+.cache/
