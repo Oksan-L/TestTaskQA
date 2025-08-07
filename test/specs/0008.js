@@ -8,28 +8,25 @@ import cartPage from "../pages/cart.page"
 import checkoutStepTwoPage from "../pages/checkout.step.two.page"
 import completePage from "../pages/complete.page"
 
-let addedItemNumber = 0
-let addedItemName
-let addedItemPrice
-
-const firstName = faker.person.firstName();
-const lastName = faker.person.lastName();
-const postalCode = faker.location.zipCode();
-
 describe("Valid Checkout", () => {
 
-    it("Login", async () => {
+    it("0008 test", async () => {
+
+        //Login
         await loginPage.open()
         await loginPage.standardUserLogin()
 
         await browser.pause(2000) 
-    })
 
-    //Click on the "Add to cart" button near any product
-    it ("Number near the cart at the top right increase by 1, product is added to cart", async () => {
+        //Click on the "Add to cart" button near any product
+        //Number near the cart at the top right increase by 1, product is added to cart
 
         let inCartNow1 = await inventoryPage.getCartBadgeNumber()
         console.log('In the cart now:', inCartNow1)
+
+        let addedItemNumber = 0
+        let addedItemName
+        let addedItemPrice
 
         // Click on the "Add to cart" button for the first product
         await inventoryPage.clickAddToCartButton(addedItemNumber)
@@ -40,13 +37,10 @@ describe("Valid Checkout", () => {
         let inCartNow2 = await inventoryPage.getCartBadgeNumber()
         console.log('In the cart now:', inCartNow2)
 
-        // Check if the cart badge number has increased by 1
         expect(inCartNow2).toBe(inCartNow1 + 1)
 
-    })
-
-    //Click on the "Cart" button at the top right corner
-    it("Cart page is displayed, product are the same as was added at step 1", async () => {
+        //Click on the "Cart" button at the top right corner
+        //Cart page is displayed, product are the same as was added at step 1
 
         await inventoryPage.clickCartIcon()
         await browser.pause(2000)
@@ -62,42 +56,34 @@ describe("Valid Checkout", () => {
         const cartItemName = await cartPage.getCartItemName(addedItemNumber)
         expect(cartItemName).toBe(addedItemName)
 
-    })
-
-    //Click on the "Checkout" button
-    it("Checkout form are displayed", async () => {
+        //Click on the "Checkout" button
+        //Checkout form are displayed
         await cartPage.clickCheckoutButton()
         await browser.pause(2000)
 
-        // Check if the checkout form is displayed
         const checkoutForm = cartPage.checkoutContainer
         await expect(checkoutForm).toBeDisplayed()
 
-        // Verify that the URL contains '/checkout-step-one.html'
         expect(await browser.getUrl()).toContain('/checkout-step-one.html')
-    })
 
-    //Fill the "First Name" field with valid data
-    it("Data is entered to the field (First Name)", async () => {
+        //Fill the "First Name" field with valid data
+        //Data is entered to the field (First Name)
 
         const firstName = faker.person.firstName()
         await cartPage.firstNameInput.setValue(firstName)
         const firstNameValue = await cartPage.firstNameInput.getValue()
         expect(firstNameValue).toBe(firstName)
 
-    })
-
-    //Fill the "Second Name" field with valid data
-    it("Data is entered to the field (Second Name)", async () => {
+        //Fill the "Second Name" field with valid data
+        //Data is entered to the field (Second Name)
 
         const lastName = faker.person.lastName()
         await cartPage.lastNameInput.setValue(lastName)
         const lastNameValue = await cartPage.lastNameInput.getValue()
         expect(lastNameValue).toBe(lastName)
-    })
 
-    //Fill the "Postal Code" field with valid data
-    it("Data is entered to the field (Postal Code)", async () => {
+        //Fill the "Postal Code" field with valid data
+        //Data is entered to the field (Postal Code)
 
         const postalCode = faker.location.zipCode()
         await cartPage.postalCodeInput.setValue(postalCode)
@@ -105,15 +91,12 @@ describe("Valid Checkout", () => {
         expect(postalCodeValue).toBe(postalCode)
         await browser.pause(2000)
 
-    })
-
-    //Click on the "Continue" button
-    it("User is redirected to the Overview page, Products from step 1 is displayed. Total price = price of products from step 1", async () => {
+        //Click on the "Continue" button
+        //User is redirected to the Overview page, Products from step 1 is displayed. Total price = price of products from step 1
 
         await cartPage.continueButton.click()
         await browser.pause(2000)
 
-        // Check if the Overview page is displayed
         const overviewUrl = await browser.getUrl()
         expect(overviewUrl).toContain('/checkout-step-two.html')
 
@@ -126,31 +109,24 @@ describe("Valid Checkout", () => {
         const total = prices.reduce((sum, price) => sum + price, 0)
         expect(total).toBeCloseTo(addedItemPrice, 2)
 
-    })
-
-    //Click on the "Finish" button
-    it("User is redirected to the Checkout Complete page, Thank you for your order! message are displayed", async () => {
+        //Click on the "Finish" button
+        //User is redirected to the Checkout Complete page, Thank you for your order! message are displayed
 
         await checkoutStepTwoPage.finishButton.click()
         await browser.pause(2000)
 
-        // Check if the Checkout Complete page is displayed
         const completeUrl = await browser.getUrl()
         expect(completeUrl).toContain('/checkout-complete.html')
 
-        // Verify that the thank you message is displayed
         const thankYouMessage = await completePage.getCompleteHeaderText()
         await expect(thankYouMessage).toBe('Thank you for your order!')
 
-    })
-
-    //Click on the "Back Home" button
-    it("User is redirected to the inventory page. Products are displayed. Cart is empty", async () => {
+        //Click on the "Back Home" button
+        //User is redirected to the inventory page. Products are displayed. Cart is empty
         
         await completePage.clickBackHomeButton()
         await browser.pause(2000)
 
-        // Check if the user is redirected to the inventory page
         const inventoryUrl = await browser.getUrl()
         expect(inventoryUrl).toContain('/inventory.html')
 

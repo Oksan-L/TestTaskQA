@@ -3,7 +3,9 @@ class loginPage {
     get loginInput() { return $('#user-name') }
     get passwordInput() { return $('#password') }
     get loginButton() { return $('#login-button') }
-    get errorMessage() { return $('.error-message-container h3'); }
+    get errorMessage() { return $('.error-message-container h3') }
+    get errorMessage2() { return $('[data-test="error"]') }
+    get errorIcons() { return $$('.error_icon') }
 
 
     async open() {
@@ -44,6 +46,16 @@ class loginPage {
             }
         );
         expect(await browser.getUrl()).toContain('/inventory.html');
+    }
+
+    async xiconsDisplayed() {
+        // Checking the X icons on the fields
+        const icons = await this.errorIcons
+        await expect(icons.length).toBeGreaterThanOrEqual(2)
+
+        for (const icon of icons) {
+            await expect(icon).toBeDisplayed()
+        }
     }
 }
 

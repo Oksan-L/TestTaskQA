@@ -1,55 +1,49 @@
-import { browser, expect } from '@wdio/globals'
+// Precondition: User is on the login page
+
+import loginPage from "../pages/login.page"
+import inventoryPage from "../pages/inventory.page"
 
 describe("Valid Login", () => {
-    it("Data is entered to the field", async () => {
-    await browser.url('https://www.saucedemo.com/')
 
-    let loginplace = await $('#user-name')
-    await expect(loginplace).toBeDisplayed()
+    it("0001 test", async () => {
 
-    await loginplace.setValue('standard_user')
+    // Enter valid login into "Login" field
+    // Data is entered to the field
 
-    const value1 = await loginplace.getValue()
+    loginPage.open()
+    await expect(loginPage.loginInput).toBeDisplayed()
+    await loginPage.loginInput.setValue('standard_user')
+    const value1 = await loginPage.loginInput.getValue()
     expect(value1).toBe('standard_user')
-    })
 
-    it("Data is entered to the field, data is represented as dots instead of characters", async () => {
-    let passwordplace = await $('#password')
-    await expect(passwordplace).toBeDisplayed()
+    // Enter valid password into "Password" field
+    // Data is entered to the field, data is represented as dots instead of characters
 
-    await passwordplace.setValue('secret_sauce')
-
-    const value2 = await passwordplace.getValue()
+    await expect(loginPage.passwordInput).toBeDisplayed()
+    await loginPage.passwordInput.setValue('secret_sauce')
+    const value2 = await loginPage.passwordInput.getValue()
     expect(value2).toBe('secret_sauce')
-
     await browser.pause(2000)
 
-    const passwordType = await passwordplace.getAttribute('type')
+    const passwordType = await loginPage.passwordInput.getAttribute('type')
     expect(passwordType).toBe('password')
-    })
 
-    it("User is redirected to the inventory page. Products and cart are displayed", async () => {
-    let loginbutton = await $('#login-button')
-    await loginbutton.click()
+    // Click "Login" button
+    // User is redirected to the inventory page. Products and cart are displayed
 
+    await loginPage.loginButton.click()
     await browser.pause(2000) 
+    await browser.waitUntil(
+        async () => (await browser.getUrl()).includes('/inventory.html'),
+        {
+            timeout: 5000,
+            timeoutMsg: 'User is NOT redirected to the inventory page'
+        }
+    )
+    expect(await browser.getUrl()).toContain('/inventory.html')
 
-    // Wait for the user to be redirected to the inventory page
-        await browser.waitUntil(
-            async () => (await browser.getUrl()).includes('/inventory.html'),
-            {
-                timeout: 5000,
-                timeoutMsg: 'User is NOT redirected to the inventory page'
-            }
-        )
-        expect(await browser.getUrl()).toContain('/inventory.html')
+    await expect(inventoryPage.inventoryList).toBeDisplayed()
+    await expect(inventoryPage.cartIcon).toBeDisplayed()
 
-        // Checking the display of the product list
-        const inventoryList = await $('#inventory_container')
-        await expect(inventoryList).toBeDisplayed()
-
-        // Checking the display of the cart icon
-        const cartIcon = await $('#shopping_cart_container')
-        await expect(cartIcon).toBeDisplayed()
     })
 })

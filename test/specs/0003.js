@@ -1,41 +1,37 @@
-import { browser, expect } from '@wdio/globals'
+// Precondition: User is on the login page
+
+import loginPage from "../pages/login.page"
 
 describe("Login with invalid login", () => {
-    it("Data is entered to the field", async () => {
-    await browser.url('https://www.saucedemo.com/')
 
-    let loginplace = await $('#user-name')
-    await expect(loginplace).toBeDisplayed()
+    it("0003 test", async () => {
 
-    await loginplace.setValue('standarOD_user') //invalid login
+    // Enter invalid login into "Login" field
+    // Data is entered to the field
 
-    const value1 = await loginplace.getValue()
+    loginPage.open()
+    await expect(loginPage.loginInput).toBeDisplayed()
+    await loginPage.loginInput.setValue('standarOD_user') //invalid login
+    const value1 = await loginPage.loginInput.getValue()
     expect(value1).toBe('standarOD_user')
-    })
 
-    it("Data is entered to the field, data is represented as dots instead of characters", async () => {
-    let passwordplace = await $('#password')
-    await expect(passwordplace).toBeDisplayed()
+    // Enter valid password into "Password" field
+    // Data is entered to the field, data is represented as dots instead of characters
 
-    await passwordplace.setValue('secret_sauce') //valid password
-
-    const value2 = await passwordplace.getValue()
+    await expect(loginPage.passwordInput).toBeDisplayed()
+    await loginPage.passwordInput.setValue('secret_sauce') //valid password
+    const value2 = await loginPage.passwordInput.getValue()
     expect(value2).toBe('secret_sauce')
-
     await browser.pause(2000)
 
-    const passwordType = await passwordplace.getAttribute('type')
+    const passwordType = await loginPage.passwordInput.getAttribute('type')
     expect(passwordType).toBe('password')
-    })
 
-    it("X icons are displayed on the Login and Password fields, this fields are highlighted with red. Epic sadface: Username and password do not match any user in this service - error message are displayed", async () => {
+    // Click "Login" button
+    // X icons are displayed on the Login and Password fields, this fields are highlighted with red. Epic sadface: Username and password do not match any user in this service - error message are displayed
     
-    let loginbutton = await $('#login-button')
-    await loginbutton.click()
+    await loginPage.loginButton.click()
     await browser.pause(2000) 
-
-    let passwordplace = await $('#password')
-    let loginplace = await $('#user-name') 
     
     // Wait for the error message to be displayed
     await browser.waitUntil(
@@ -47,24 +43,19 @@ describe("Login with invalid login", () => {
     )
 
     // Checking the error message
-    const errorMessage = await $('[data-test="error"]')
-    await expect(errorMessage).toBeDisplayed()
-    expect(await errorMessage.getText()).toContain('Epic sadface: Username and password do not match any user in this service')
+    await expect(loginPage.errorMessage2).toBeDisplayed()
+    expect(await loginPage.errorMessage2.getText()).toContain('Epic sadface: Username and password do not match any user in this service')
 
     // Checking the red border on the fields
-    await expect(loginplace).toHaveElementClass('input_error')
-    await expect(passwordplace).toHaveElementClass('input_error')
+    await expect(loginPage.loginInput).toHaveElementClass('input_error')
+    await expect(loginPage.passwordInput).toHaveElementClass('input_error')
 
-    const loginBorderColor = await loginplace.getCSSProperty('border-bottom-color')
-    const passwordBorderColor = await passwordplace.getCSSProperty('border-bottom-color')
+    const loginBorderColor = await loginPage.loginInput.getCSSProperty('border-bottom-color')
+    const passwordBorderColor = await loginPage.passwordInput.getCSSProperty('border-bottom-color')
     expect(loginBorderColor.parsed.hex).toBe('#e2231a')
     expect(passwordBorderColor.parsed.hex).toBe('#e2231a')
 
-    // Checking the X icons on the fields
-    const errorIcons = await $$('.error_icon')
-    expect(errorIcons.length).toBeGreaterThanOrEqual(2) // should be at least 2 icons for login and password
-    for (const icon of errorIcons) {
-        await expect(icon).toBeDisplayed()
-    }
+    await loginPage.xiconsDisplayed()
+
     })
 })

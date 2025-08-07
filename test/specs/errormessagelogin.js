@@ -27,12 +27,12 @@ describe("Error message height", () => {
 
         console.log(`Container height: ${containerHeight}, Text height: ${textHeight}`);
 
-        // Check that the text height is less than or equal to the container height
-        await expect(textHeight).toBeLessThanOrEqual(containerHeight);
-
         // Save screenshots
         await container.saveScreenshot('./screenshots/error-container.png');
         await browser.saveScreenshot('./screenshots/full-page.png');
+
+        await expect(textHeight).toBeLessThanOrEqual(containerHeight);
+
     });
 
 });

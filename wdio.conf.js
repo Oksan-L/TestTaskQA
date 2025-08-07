@@ -27,18 +27,18 @@ export const config = {
     exclude: [
         // 'path/to/excluded/files'
         
-        './test/specs/beforeandafter.js',
-        './test/specs/errormessagelogin.js',
-        './test/specs/test.e2e.js',
-        './test/specs/0001.js',
-        './test/specs/0002.js',
-        './test/specs/0003.js',
-        './test/specs/0004.js',
-        './test/specs/0005.js',
-        './test/specs/0006.js',
-        './test/specs/0007.js',
-        './test/specs/0008.js',
-        './test/specs/0009.js'
+        // './test/specs/beforeandafter.js',
+        // './test/specs/errormessagelogin.js', 
+        // './test/specs/loginpagetitle.js', 
+        // './test/specs/0001.js', 
+        // './test/specs/0002.js', 
+        // './test/specs/0003.js', 
+        // './test/specs/0004.js', 
+        // './test/specs/0005.js', 
+        // './test/specs/0006.js', 
+        // './test/specs/0007.js', 
+        // './test/specs/0008.js', 
+        // './test/specs/0009.js' 
     ],
     //
     // ============

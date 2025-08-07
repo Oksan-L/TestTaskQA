@@ -6,15 +6,16 @@ import cartPage from "../pages/cart.page"
 
 describe("Checkout without products", () => {
 
-    it("Login", async () => {
+    it("0009 test", async () => {
+
+        // Login
         await loginPage.open()
         await loginPage.standardUserLogin()
 
         await browser.pause(2000) 
-    })
 
-    //Click on the "Cart" button at the top right corner
-    it("Cart page is displayed, products are not displayed", async () => {
+        // Click on the "Cart" button at the top right corner
+        // Cart page is displayed, products are not displayed
 
         // Check if the cart is empty
         it("Verify cart is empty or clear it before continuing", async () => {
@@ -35,10 +36,8 @@ describe("Checkout without products", () => {
         const items = await cartPage.cartItemsNames;
         expect(items.length).toBe(0);
 
-    })
-
-    //Click on the "Checkout" button
-    it("User are located on the Cart Page, error message Cart is empty are displayed", async () => {
+        //Click on the "Checkout" button
+        //User are located on the Cart Page, error message Cart is empty are displayed
 
         await cartPage.clickCheckoutButton()
         await browser.pause(2000)
@@ -49,8 +48,7 @@ describe("Checkout without products", () => {
         // Verify that the error message is displayed
         const errorMessage = await $('.error-message-container') // I didnt find the exact selector for the error message, so I used a generic one
         await expect(errorMessage).toBeDisplayed()
-        const errorText = await errorMessage.getText('Cart is empty')
-            
+        await expect(errorMessage).toHaveText('Cart is empty');
     })
 
 })
